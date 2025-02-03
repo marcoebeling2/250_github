@@ -14,7 +14,7 @@ def main():
     # TODO: Get user input and send it to the server using your TCP socket
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.connect((HOST, PORT))
-        s.sendall(b'Hello, world')
+        s.sendall(b'waddup')
         data = s.recv(1024)
     # TODO: Receive a response from the server and close the TCP connection
     print('Received', repr(data))
