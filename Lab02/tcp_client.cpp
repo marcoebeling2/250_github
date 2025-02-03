@@ -54,8 +54,8 @@ int main(int argc, char const *argv[])
 		return -1;
 	}
 	// TODO: Retreive user input
-	cout << "Enter a user data: ";
-	cin >> socket_read_buffer;
+	std::cout << "Enter a user data: ";
+	std::cin >> socket_read_buffer;
 	// TODO: Send() the user input to the server
 	n = write(client_fd, socket_read_buffer, strlen(socket_read_buffer));
 	if (n<0) 
