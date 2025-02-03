@@ -21,6 +21,7 @@ int main(int argc, char const *argv[])
 
 	int opt = 1;
 	int client_fd = -1;
+	int n = 0;
 
 	// TODO: Create a TCP socket()
 	client_fd = socket(AF_INET, SOCK_STREAM, 0);
