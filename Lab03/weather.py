@@ -1,7 +1,7 @@
 import requests
 
 # WeatherAPI key
-WEATHER_API_KEY = 'your_api_key_here'  # TODO: Replace with your own WeatherAPI key
+WEATHER_API_KEY = '10666b511f7a43fcb0d00529250502'  # TODO: Replace with your own WeatherAPI key
 
 def get_weather(city):
     # TODO: Build the API request URL using the base API endpoint, the API key, and the city name provided by the user.
