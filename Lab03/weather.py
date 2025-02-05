@@ -26,8 +26,6 @@ def get_weather(city):
         # - Visibility in miles
 
         # print the json
-        print(r.json())
-
         weather_data = r.json()
         temperature = weather_data['current']['temp_f']
         feels_like = weather_data['current']['feelslike_f']
