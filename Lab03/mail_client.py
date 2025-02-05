@@ -2,7 +2,7 @@ import requests
 import argparse
 import pprint # For pretty printing
 
-SERVER = 'http://localhost:5000'
+SERVER = 'http://127.0.0.01:5000'
 
 def send_mail(recipient: str, sender: str, subject: str, body: str) -> bool:
     """
@@ -32,25 +32,49 @@ def send_mail(recipient: str, sender: str, subject: str, body: str) -> bool:
     pprint.pprint(response.json())
 
 def get_inbox(recipient: str) -> None:
-    """TODO: fill out this docstring (using the send_mail docstring as a guide)
+    """
+    Retrieves all of the mail entries for a specific recipient
+    
+    Args:
+        recipient (str): The recipient of the inbox being retrieved
+    Returns:
+        None
     """
     response = requests.get(f'{SERVER}/mail/inbox/{recipient}')
     pprint.pprint(response.json())
 
 def get_sent(sender: str) -> None:
-    """TODO: fill out this docstring (using the send_mail docstring as a guide)
+    """
+    Retrieves all of the mail entries sent by a specified sender
+    
+    Args:
+        sender (str): The sender of the sent mail being retrieved
+    Returns:
+        None
     """
     response = requests.get(f'{SERVER}/mail/sent/{sender}')
     pprint.pprint(response.json())
 
 def get_mail(mail_id: str) -> None:
-    """TODO: fill out this docstring (using the send_mail docstring as a guide)
+    """
+    Retrieves the mail entry using the mails unique ID
+
+    Args:
+        mail_id (str): The unique ID of the mail entry
+    Returns:
+        None
     """
     response = requests.get(f'{SERVER}/mail/{mail_id}')
     pprint.pprint(response.json())
 
 def delete_mail(mail_id: str) -> None:
-    """TODO: fill out this docstring (using the send_mail docstring as a guide)
+    """
+    Deletes the specified mail entry using the mail's unique ID.
+    
+    Args:
+        mail_id (str): The unique ID of the mail entry
+    Returns:
+        None
     """
     response = requests.delete(f'{SERVER}/mail/{mail_id}')
     pprint.pprint(response.json())
@@ -119,4 +143,3 @@ def main():
 # you'll need to demo sending, receiving, and deleting mail for checkoff.
 if __name__ == '__main__':
     main()
-

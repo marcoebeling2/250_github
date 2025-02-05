@@ -4,7 +4,6 @@ import pathlib
 import uuid
 import json
 
-
 app = Flask(__name__)
 thisdir = pathlib.Path(__file__).parent.absolute() # path to directory of this file
 
@@ -23,12 +22,25 @@ def load_mail() -> List[Dict[str, str]]:
         return []
 
 def save_mail(mail: List[Dict[str, str]]) -> None:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Saves the mail to a JSON file.
+    
+    Arg:
+        list: A list of dictionaries representing the mail entries
+    Returns:
+        None
     """
     thisdir.joinpath('mail_db.json').write_text(json.dumps(mail, indent=4))
 
 def add_mail(mail_entry: Dict[str, str]) -> str:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Adds mail to mail database with its own unique ID
+    
+    Arg:
+        list: A list of dictionaries representing the mail entries
+        
+    Returns:
+        str: Newly imported mail's unique ID 
     """
     mail = load_mail()
     mail.append(mail_entry)
@@ -37,7 +49,14 @@ def add_mail(mail_entry: Dict[str, str]) -> str:
     return mail_entry['id']
 
 def delete_mail(mail_id: str) -> bool:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Deletes mail entry from the mail database using the mail unique ID
+    
+    Args:
+        mail_id (str): The unique ID of the mail entry to delete.
+        
+    Returns:
+        bool: True if the mail was deleted, False if not.
     """
     mail = load_mail()
     for i, entry in enumerate(mail):
@@ -49,7 +68,14 @@ def delete_mail(mail_id: str) -> bool:
     return False
 
 def get_mail(mail_id: str) -> Optional[Dict[str, str]]:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Retrieves mail entry from the database using the mail's unique ID
+
+    Args:
+        mail_id (str): The unique ID of entry to retrieve
+        
+    Returns:
+        Optional: The dictionary if the mail is found in the dictionary, otherwise none
     """
     mail = load_mail()
     for entry in mail:
@@ -59,7 +85,14 @@ def get_mail(mail_id: str) -> Optional[Dict[str, str]]:
     return None
 
 def get_inbox(recipient: str) -> List[Dict[str, str]]:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Given a certain recipient, retrieves all specific mail entries
+    
+    Args:
+        recipient (str): The recipient's information
+        
+    Returns:
+        list: A list of dictionaries representing the mail entry
     """
     mail = load_mail()
     inbox = []
@@ -70,7 +103,13 @@ def get_inbox(recipient: str) -> List[Dict[str, str]]:
     return inbox
 
 def get_sent(sender: str) -> List[Dict[str, str]]:
-    """TODO: fill out this docstring (using the load_mail docstring as a guide)
+    """
+    Looks and retrieves all mail from a specified sender
+    
+    Args:
+        sender (str): The sender's information
+    Returns:
+        list: A list of dictionaries representing the mail entry
     """
     mail = load_mail()
     sent = []
@@ -106,8 +145,11 @@ def delete_mail_route(mail_id: str):
     Returns:
         bool: True if the mail was deleted, False otherwise
     """
-    # TODO: implement this function
-    pass # remove this line
+    mail_entry = request.get_json()
+    mail_id = delete_mail(mail_entry)
+    res = jsonify({'id': mail_id})
+    res.status_code = 200
+    return res
 
 @app.route('/mail/<mail_id>', methods=['GET'])
 def get_mail_route(mail_id: str):
@@ -139,10 +181,20 @@ def get_inbox_route(recipient: str):
     res.status_code = 200
     return res
 
-# TODO: implement a rout e to get all mail entries for a sender
-# HINT: start with soemthing like this:
-#   @app.route('/mail/sent/<sender>', ...)
+@app.route('/mail/sent/<sender>', methods=['GET'])
+def get_sent_route(sender: str):
+    """
+    Retrieves all mail entries for a specified sender
+    
+    Args:
+        sender (str): The sender's information
+    Returns:
+        list: A list of dictionaries representing the mail entries
+    """
 
+    res = jsonify(get_sent(sender))
+    res.status_code = 200
+    return res
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
