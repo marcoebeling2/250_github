@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 import time
 
-USERNAME = "mebeling"  # Replace with your actual username
-BROKER = "172.20.10.3"
+USERNAME = "mebeling/"  # Replace with your actual username
+BROKER = "http://broker.hivemq.com/"
 
 def on_message(client, userdata, msg):
     """Handle incoming messages on 'ping' topic."""
