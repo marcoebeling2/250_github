@@ -14,10 +14,16 @@ def on_connect(client, userdata, flags, rc):
 
     print("Connected to server (i.e., broker) with result code "+str(rc))
     #replace user with your USC username in all subscriptions
-    client.subscribe("user/ipinfo")
+    client.subscribe("jzane/ipinfo")
+    client.subscribe("jzane/time")
+    client.subscribe("jzane/date")
+    client.subscribe("jzane/other")
     
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("user/ipinfo", on_message_from_ipinfo)
+    client.message_callback_add("jzane/date", on_message_from_date)
+    client.message_callback_add("jzane/time", on_message)
+    client.message_callback_add("jzane/ipinfo", on_message_from_ipinfo)
+    client.message_callback_add("jzane/other", on_message)
 
 
 """This object (functions are objects!) serves as the default callback for 
@@ -26,6 +32,9 @@ subscribed to. By "default,"" we mean that this callback is called if a custom
 callback has not been registered using paho-mqtt's message_callback_add()."""
 def on_message(client, userdata, msg):
     print("Default callback - topic: " + msg.topic + "   msg: " + str(msg.payload, "utf-8"))
+
+def on_message_from_date(client, userdata, msg):
+    print("Custom callback - Date: "+msg.payload.decode())
 
 #Custom message callback.
 def on_message_from_ipinfo(client, userdata, message):
