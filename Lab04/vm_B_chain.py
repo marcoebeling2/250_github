@@ -3,7 +3,7 @@ import time
 
 USERNAME = "mebeling"  # Replace with your actual username
 PORT = 1883
-BROKER = "broker.hivemq.com"  # Corrected broker address
+BROKER = "172.20.10.3"  # Corrected broker address
 
 def on_message(client, userdata, msg):
     """Handle incoming messages on 'ping' topic."""

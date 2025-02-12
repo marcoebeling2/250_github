@@ -3,7 +3,7 @@ import time
 
 USERNAME = "mebeling"  # Replace with your actual username
 PORT = 1883
-BROKER = "broker.hivemq.com"
+BROKER = "172.20.10.3"
 START_NUMBER = 1  # Initial number to start the ping-pong sequence
 
 def on_message(client, userdata, msg):
