@@ -1,8 +1,9 @@
 import paho.mqtt.client as mqtt
 import time
 
-USERNAME = "mebeling/"  # Replace with your actual username
-BROKER = "http://broker.hivemq.com/"
+USERNAME = "mebeling"  # Replace with your actual username
+PORT = 1883
+BROKER = "broker.hivemq.com"  # Corrected broker address
 
 def on_message(client, userdata, msg):
     """Handle incoming messages on 'ping' topic."""
@@ -15,11 +16,18 @@ def on_message(client, userdata, msg):
 def on_connect(client, userdata, flags, rc):
     """Subscribe to the ping topic upon connection."""
     print(f"Connected with result code {rc}")
-    client.subscribe(f"{USERNAME}/ping")
+    if rc == 0:
+        client.subscribe(f"{USERNAME}/ping")
+    else:
+        print("Failed to connect, return code", rc)
 
 client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect(BROKER, 1883, 60)
-client.loop_forever()
+# Ensure correct broker format
+try:
+    client.connect(BROKER, PORT, 60)
+    client.loop_forever()
+except Exception as e:
+    print(f"Connection error: {e}")
