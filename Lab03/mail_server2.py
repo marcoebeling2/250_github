@@ -234,14 +234,16 @@ def main():
             print(f"Connection from {cli_addr}")
         except socket.error as e:
             error(f"ERROR on accept: {e}")
+        try:
+            app.run(port=5000, debug=True)
+        except socket.error as e:
+            error(f"ERROR getting mail: {e}")
         
-        buffer = newsockfd.recv(256).decode('utf-8')
-        if not buffer:
-            error("ERROR reading from socket")
-        
-        print(f"Here is the message: {buffer}")
-        
-        response = "I got your message"
+        newsockfd.close()
+    
+    sockfd.close()
+    
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)
