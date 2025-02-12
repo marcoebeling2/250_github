@@ -19,7 +19,7 @@ if __name__ == '__main__':
     client = mqtt.Client()
     
     #attach the on_connect() callback function defined above to the mqtt client
-    client.on_connect = on_connect()
+    client.on_connect = on_connect
     """Connect using the following hostname, port, and keepalive interval (in 
     seconds). We added "host=", "port=", and "keepalive=" for illustrative 
     purposes. You can omit this in python.
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     while True:
         #replace user with your USC username in all subscriptions
         client.publish("jzane/ipinfo", f"{ip_address}")
-        print("Publishing ip address")
+        print("Publishing ip address, date, and time")
         time.sleep(4)
 
         #get date and time 
