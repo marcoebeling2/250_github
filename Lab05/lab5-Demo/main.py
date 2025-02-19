@@ -5,6 +5,8 @@ import plotly.express as px
 import numpy as np
 import subprocess
 import re
+import numpy as np
+import matplotlib.pyplot as plt
 
 def get_wifi_signal_strength() -> int:
     """Get the signal strength of the wifi connection.
@@ -13,6 +15,8 @@ def get_wifi_signal_strength() -> int:
         The signal strength in dBm.
     """
     # Question 1: What is dBm? What values are considered good and bad for WiFi signal strength?
+        # dBm is a unit of measurement for the strength of the signal. It takes in a value in mW and converts it to a log scale via:
+        # dBm = 10 * log10(mW)
 
     # Question 2: Why do we need to check the OS? What is the difference between the commands for each OS?
 
@@ -57,18 +61,26 @@ def main():
 
         # TODO: collect 10 samples of the signal strength at this location, waiting 1 second between each sample
         # HINT: use the get_wifi_signal_strength function
+        for i in range(samples_per_location): # iterate to collect samples
+            signal_strength = get_wifi_signal_strength() # collect signal
+            signal_strengths.append(signal_strength) # append to list
+            time.sleep(time_between_samples) # wait for 1 second
+
         
         # TODO: calculate the mean and standard deviation of the signal strengths you collected at this location
-        signal_strength_mean = None
-        signal_strength_std = None
+        signal_strength_mean = np.mean(signal_strengths)
+        signal_strength_std = np.std(signal_strengths)
 
         # Question 6: What is the standard deviation? Why is it useful to calculate it?
+        # standard deviation is the measure of variance that an average sample has from the mean. This can show the stability of the wifi signal.
         data.append((location, signal_strength_mean, signal_strength_std))
 
     # create a dataframe from the data
     df = pd.DataFrame(data, columns=['location', 'signal_strength_mean', 'signal_strength_std'])
 
     # Question 7: What is a dataframe? Why is it useful to use a dataframe to store the data?
+    # a dataframe is basically the python version of an excel spreadsheet. It stores data in a 2D tabular format. 
+    # It is useful because there are easy built in function to index and manipulate the data in whatever way you want.
     # HINT: https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html
     # HINT: print the dataframe to see what it looks like
     # print(df)
@@ -77,13 +89,24 @@ def main():
     # HINT: https://plotly.com/python/bar-charts/
     # NOTE: use the error_y parameter of px.bar to plot the error bars (1 standard deviation)
     #   documentation: https://plotly.com/python-api-reference/generated/plotly.express.bar.html
-    fig = px.bar(
-        
-    )
+    fig, ax = plt.subplots()
+    ax.bar(df['location'], df['signal_strength_mean'], yerr=df['signal_strength_std'])
+
+    ax.set_title('WiFi Signal Strength by Location')
+    ax.set_xlabel('Location')
+    ax.set_ylabel('Signal Strength (dBm)')
+    plt.xticks(rotation=45)
+
+    plt.tight_layout()
+    plt.show()
+
+
     # Question 8: Why is it important to plot the error bars? What do they tell us?
 
     # write the plot to a file - make sure to commit the PNG file to your repository along with your code
-    fig.write_image("signal_strength.png")
+    #fig.write_image("signal_strength.png")
+    # write the plot to a file using matplotlib
+    fig.savefig("signal_strength.png")
 
     # Question 9: What did you observe from the plot? How does the signal strength change as you move between locations?
     #             Why do you think signal strength is weaker in certain locations?
