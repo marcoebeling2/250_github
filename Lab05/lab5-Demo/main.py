@@ -19,14 +19,18 @@ def get_wifi_signal_strength() -> int:
         # dBm = 10 * log10(mW)
 
     # Question 2: Why do we need to check the OS? What is the difference between the commands for each OS?
+        # The different OS have different methods used to get signal strength. They return different values and formats, so we need to have specifics regex for each.
 
     # Question 3: In your own words, what is subprocess.check_output doing? What does it return?
+    # it runs a shell command and retrieves the output of that command.
     # HINT: https://docs.python.org/3/library/subprocess.html#subprocess.check_output
 
     # Question 4: In your own words, what is re.search doing? What does it return?
+    # it is matching a regex for the output of the previously run shell command.
     # HINT: https://docs.python.org/3/library/re.html#re.search
 
     # Question 5: In the Windows case, why do we need to convert the signal quality to dBm?
+    # signal quality is a percentage of maximal strength, which is -100 dbm, so we need to conver it.
     # HINT: https://learn.microsoft.com/en-us/windows/win32/api/wlanapi/ns-wlanapi-wlan_association_attributes?redirectedfrom=MSDN
     if platform.system() == 'Linux': # Linux
         output = subprocess.check_output("iwconfig wlan0", shell=True)
@@ -102,14 +106,15 @@ def main():
 
 
     # Question 8: Why is it important to plot the error bars? What do they tell us?
+    # error bars are important because they give us key insight into the variance of the data we collected. Plotting this shows the stability of the singal.
 
     # write the plot to a file - make sure to commit the PNG file to your repository along with your code
-    #fig.write_image("signal_strength.png")
     # write the plot to a file using matplotlib
     fig.savefig("signal_strength.png")
 
     # Question 9: What did you observe from the plot? How does the signal strength change as you move between locations?
     #             Why do you think signal strength is weaker in certain locations?
+    # as I got further away, the signal got weaker and less stable. The best wifi is in my bedroom and living room!
 
 
 if __name__ == "__main__":
