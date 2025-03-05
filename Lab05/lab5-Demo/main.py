@@ -65,10 +65,10 @@ def main():
 
         # TODO: collect 10 samples of the signal strength at this location, waiting 1 second between each sample
         # HINT: use the get_wifi_signal_strength function
-        for i in range(samples_per_location): # iterate to collect samples
-            signal_strength = get_wifi_signal_strength() # collect signal
-            signal_strengths.append(signal_strength) # append to list
-            time.sleep(time_between_samples) # wait for 1 second
+        for i in range(samples_per_location):
+            signal_strength = get_wifi_signal_strength()
+            signal_strengths.append(signal_strength)
+            time.sleep(time_between_samples)
 
         
         # TODO: calculate the mean and standard deviation of the signal strengths you collected at this location
