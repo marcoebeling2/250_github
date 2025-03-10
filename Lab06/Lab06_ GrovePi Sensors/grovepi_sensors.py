@@ -40,7 +40,7 @@ while True:
         setRGB(0,255,0)
 
     # Display on LCD
-    setText_norefresh(f"{lcd_text}\n{distance:4}cm")
+    setText_norefresh(f"{lcd_string}\n{distance:4}cm")
   
     
   except IOError:
