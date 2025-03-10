@@ -15,6 +15,8 @@ setText("")
 
 while True:
   try:
+    # display an empty string on the LCD
+    setText("")
     # TODO:read distance value from Ultrasonic Ranger and print distance on LCD
     # read the distance from the ultrasonic senser
     distance = grovepi.ultrasonicRead(ultrasonic_ranger)
@@ -32,7 +34,7 @@ while True:
     lcd_string = f"{threshold:4}cm"
     # check if the distance is less than threshold
     if distance < threshold:
-      lcd_string += "OBJ PRES" # change string if color is present
+      lcd_string += " OBJ PRES" # change string if color is present
       # change color to red
       setRGB(255,0,0)
     else: # if the object is not in range...
