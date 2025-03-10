@@ -23,7 +23,7 @@ while True:
     # read value from potentiometer
     threshold_analog = grovepi.analogRead(potentiometer)
     # convert the analog value to threshold value
-    max_dist = 400 # 400 cm max
+    max_dist = 1000 # 400 cm max
     threshold = int(threshold_analog/1023 * max_dist)
 
     
