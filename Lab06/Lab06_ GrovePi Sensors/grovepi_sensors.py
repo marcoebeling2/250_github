@@ -15,8 +15,6 @@ setText("")
 
 while True:
   try:
-    # display an empty string on the LCD
-    setText("")
     # TODO:read distance value from Ultrasonic Ranger and print distance on LCD
     # read the distance from the ultrasonic senser
     distance = grovepi.ultrasonicRead(ultrasonic_ranger)
