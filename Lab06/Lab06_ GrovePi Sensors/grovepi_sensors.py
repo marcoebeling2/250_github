@@ -38,6 +38,7 @@ while True:
       # change color to red
       setRGB(255,0,0)
     else: # if the object is not in range...
+        lcd_string += "         " # remove object present
         # keep color green
         setRGB(0,255,0)
 
