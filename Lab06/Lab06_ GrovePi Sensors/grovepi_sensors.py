@@ -32,7 +32,7 @@ while True:
     lcd_string = f"{threshold:4}cm"
     # check if the distance is less than threshold
     if distance < threshold:
-      lcd_text += "OBJ PRES" # change string if color is present
+      lcd_string += "OBJ PRES" # change string if color is present
       # change color to red
       setRGB(255,0,0)
     else: # if the object is not in range...
