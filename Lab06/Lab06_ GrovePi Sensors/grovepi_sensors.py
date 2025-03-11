@@ -1,3 +1,6 @@
+# Marco Ebeling
+# Jadynne Zane
+
 import sys
 sys.path.append('~/Dexter/GrovePi/Software/Python')
 import time
