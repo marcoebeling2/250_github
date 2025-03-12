@@ -69,13 +69,14 @@ while True:
   while time.time() - start_time < 5:
       sound_val = mcp.read_adc(sound_adc)  # read sound adc val
       print("Sound Sensor: {}".format(sound_val)) # print the value
+      end_time = None
       if sound_val > sound_treshold: # if the threshold is exceeded
           # get the start time of the led on period
           start_time = time.time()
           # calculate the end time
           end_time = start_time + 0.1
       # keep the LED on if not end time yet
-      if time.time() < end_time:
+      if (time.time() < end_time) and end_time:
           GPIO.output(11, GPIO.HIGH)
       else:
           GPIO.output(11, GPIO.LOW)
