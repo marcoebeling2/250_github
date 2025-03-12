@@ -76,7 +76,7 @@ while True:
           # calculate the end time
           end_time = start_time + 0.1
       # keep the LED on if not end time yet
-      if (time.time() < end_time) and end_time:
+      if (time.time() < float(end_time)) and end_time:
           GPIO.output(11, GPIO.HIGH)
       else:
           GPIO.output(11, GPIO.LOW)
