@@ -44,6 +44,7 @@ while True:
       GPIO.output(11, GPIO.LOW)
       time.sleep(0.5)
   
+  """
   # read lead sensor and print out hte value
   start_time = time.time() # get start time to measure 5 sec span
   while time.time() - start_time < 5:
@@ -79,3 +80,4 @@ while True:
       else:
           GPIO.output(11, GPIO.LOW)
       time.sleep(0.1)
+    """
