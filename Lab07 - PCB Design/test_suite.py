@@ -25,7 +25,7 @@ light_adc = 0
 # sound sensor channel
 sound_adc = 1
 
-
+count = 0
 while True: 
   time.sleep(0.5) 
 
@@ -81,5 +81,8 @@ while True:
       else:
           GPIO.output(11, GPIO.LOW)
       time.sleep(0.1)
+
+  print(f"Cycle {count} completed")
+  count += 1
     
   
