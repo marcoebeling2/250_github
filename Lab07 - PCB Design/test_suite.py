@@ -71,10 +71,10 @@ while True:
       print("Sound Sensor: {}".format(sound_val)) # print the value
       end_time = None
       if sound_val > sound_treshold: # if the threshold is exceeded
-          # get the start time of the led on period
-          start_time = time.time()
+          # get the on time of the led on period
+          on_time = time.time()
           # calculate the end time
-          end_time = start_time + 0.1
+          end_time = on_time + 0.1
       # keep the LED on if not end time yet
       if end_time:
           GPIO.output(11, GPIO.HIGH)
