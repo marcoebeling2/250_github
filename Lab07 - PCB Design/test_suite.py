@@ -17,8 +17,8 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 # appropriate threshold levels and set them 
 # accordingly. Then, use them to determine
 # when it is light or dark, quiet or loud.
-lux_treshold=300  # change this value
-sound_treshold=0 # change this value
+lux_treshold=487  # change this value
+sound_treshold=450 # change this value
 
 # light sensor channel
 light_adc = 0
@@ -55,7 +55,7 @@ while True:
           status = "dark"
       print("Light Sensor: {} - {}".format(light_val, status))
       time.sleep(0.1)
-  """
+  
    # Blink led in 4 times with 200ms on/off intervals
   for _ in range(4):
       GPIO.output(11, GPIO.HIGH)
@@ -80,5 +80,5 @@ while True:
       else:
           GPIO.output(11, GPIO.LOW)
       time.sleep(0.1)
-    """
+    
   
