@@ -18,7 +18,7 @@ mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 # accordingly. Then, use them to determine
 # when it is light or dark, quiet or loud.
 lux_treshold=487  # change this value
-sound_treshold=450 # change this value
+sound_treshold=600 # change this value
 
 # light sensor channel
 light_adc = 0
