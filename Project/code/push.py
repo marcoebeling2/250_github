@@ -142,5 +142,3 @@ if __name__ == "__main__":
     except Exception as e:
         print("Failed to POST Stats dataframes:", e)
 
-    print(stats_df)
-
