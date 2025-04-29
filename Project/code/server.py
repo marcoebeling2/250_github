@@ -105,12 +105,6 @@ async def receive_dataframes(payload: DataFramePayload):
 latest_stats: List[Any] = []
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
-@app.get("/stats_view")
-async def stats_view(request: Request):
-    return templates.TemplateResponse(
-        "stats.html",           # <— this file lives at templates/stats.html
-        {"request": request, "stats": latest_stats}
-    )
 
 @app.get("/stats_view")
 async def stats_view(request: Request):

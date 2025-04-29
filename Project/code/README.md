@@ -106,3 +106,9 @@ You said:
 
 website diplay: 
 https://www.w3schools.com/ai/ai_chartjs.asp
+
+
+
+Plot in tables: individual stats for everyone
+Plot highest superbowl winning percentage
+Plot highest percent to win the league
