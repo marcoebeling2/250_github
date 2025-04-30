@@ -6,6 +6,10 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Any, List
+from pyngrok import ngrok, conf
+
+# set up ngrok
+conf.get_default().auth_token = "2wRBYTeFGmI0h1kRDtnTzd5Yfmq_5ShVWSkYvfc2b6uBkPv76"
 
 
 # =============================
@@ -141,6 +145,9 @@ async def stats_view(request: Request):
 # Entry point (dev mode)
 # =============================
 if __name__ == "__main__":
+    tunnel = ngrok.connect(8000, bind_tls=True)
+    print(f" * ngrok tunnel \"{tunnel.public_url}\" → \"http://127.0.0.1:8000\"")
+    
     import uvicorn
     uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
 
