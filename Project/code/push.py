@@ -15,7 +15,7 @@ URL = "https://83dc-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
 
 
 
-def update_stats(year: str ="2024"):
+def update_stats(year: str ="2023"):
     """ Funcation to update the stats of the NFL Teams"""
     headers = {
         "User-Agent": (
