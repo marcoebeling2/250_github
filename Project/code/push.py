@@ -4,8 +4,8 @@ import numpy as np
 
 
 # === Configuration ===
-URL = "http://192.168.1.8:8000"  # Matches your FastAPI endpoint
-URL = "http://172.20.10.3:8000" # local host for testing
+URL = "http://192.168.50.1:8000"  # Matches your FastAPI endpoint
+#URL = "http://172.20.10.3:8000" # local host for testing
 
 
 
