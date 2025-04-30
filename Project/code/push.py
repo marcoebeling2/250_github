@@ -10,7 +10,7 @@ import numpy as np
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://40a8-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
+URL = "https://83dc-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
 
 
 
