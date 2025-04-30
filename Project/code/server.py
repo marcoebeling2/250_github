@@ -145,9 +145,10 @@ async def stats_view(request: Request):
 # Entry point (dev mode)
 # =============================
 if __name__ == "__main__":
+    # 2) Open a single HTTPS tunnel to your FastAPI on 127.0.0.1:8000
     tunnel = ngrok.connect(8000, bind_tls=True)
-    print(f" * ngrok tunnel \"{tunnel.public_url}\" → \"http://127.0.0.1:8000\"")
-    
-    import uvicorn
-    uvicorn.run("server:app", host="0.0.0.0", port=8000, reload=True)
+    print(f" * ngrok tunnel \"{tunnel.public_url}\" → localhost:8000")
 
+    # 3) Run this exact `app` instance
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
