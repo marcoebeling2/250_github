@@ -10,12 +10,12 @@ import numpy as np
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://83dc-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
+URL = "https://041f-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
 
 
 
 
-def update_stats(year: str ="2023"):
+def update_stats(year: str ="2024"):
     """ Funcation to update the stats of the NFL Teams"""
     headers = {
         "User-Agent": (
@@ -101,7 +101,7 @@ def simulate(stats_df):
 # === Main execution ===
 if __name__ == "__main__":
     try:
-        df = update_stats("2024")
+        df = update_stats("2023")
         print("New ESPN data received!")
 
 
