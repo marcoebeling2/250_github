@@ -10,7 +10,7 @@ import numpy as np
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://041f-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
+URL = "https://1814-2603-8000-b9f0-c920-9c2c-fc52-27c0-67d.ngrok-free.app"
 
 
 
@@ -95,7 +95,81 @@ def simulate(stats_df):
     counts = np.bincount(max_indices, minlength=sims.shape[1])
     percentages = counts / sims.shape[0]
     # add percetanges to the dataframe
-    stats_df["league_win_pct"] = percentages
+    stats_df["league_win_pct"] = percentages 
+
+
+### FFT transforms
+def owner_pmf(team_ps, team_games, M=None):
+    # force total_games to be a Python int
+    total_games = int(sum(team_games))
+
+    if M is None:
+        # now bit_length() works
+        M = 1 << ((total_games*2 - 1).bit_length())
+
+    omega = 2*np.pi*np.arange(M)/M
+
+    cf = np.ones(M, dtype=complex)
+    for p, N in zip(team_ps, team_games):
+        single_game = (1-p) + p*np.exp(1j*omega)
+        cf *= single_game**int(N)   # N should already be int
+
+    pmf = np.fft.ifft(cf).real
+    pmf = np.maximum(pmf, 0)
+    pmf /= pmf.sum()
+    return pmf[: total_games+1]
+
+def owner_pmf_with_offset(team_ps, team_games, offset, M=None):
+    total_future = int(sum(team_games))
+    if M is None:
+        M = 1 << ((total_future*2 - 1).bit_length())
+    ω = 2*np.pi*np.arange(M)/M
+
+    cf = np.ones(M, dtype=complex)
+    for p_rem, N_rem in zip(team_ps, team_games):
+        cf *= ((1-p_rem) + p_rem*np.exp(1j*ω))**N_rem
+
+    # shift by the OFFSET = sum of current wins
+    cf *= np.exp(1j * ω * offset)
+
+    pmf = np.fft.ifft(cf).real
+    pmf = np.maximum(pmf, 0)
+    pmf /= pmf.sum()
+
+    # final PMF length = current_wins + future_games + 1
+    return pmf[: offset + total_future + 1]
+
+
+
+def champ_probs(all_team_ps, owners):
+    pmfs, max_len = [], 0
+    # 1) build each owner's PMF
+    for teams in owners:
+        ps, gs = zip(*(all_team_ps[t] for t in teams))
+        pmf = owner_pmf(ps, gs)
+        pmfs.append(pmf)
+        max_len = max(max_len, len(pmf))
+
+    # 2) build CDFs
+    cdfs = [ np.cumsum(np.pad(p, (0, max_len-len(p)))) for p in pmfs ]
+
+    # 3) compute champion probabilities
+    P = []
+    n = len(pmfs)
+    for j in range(n):
+        pmf_j = np.pad(pmfs[j], (0, max_len - len(pmfs[j])))
+        prob = 0.0
+        # skip m=0 since Pr(others < 0)=0 anyway
+        for m in range(1, max_len):
+            # product of Pr(owner k has < m) for all k != j
+            others_lt = np.prod([ cdfs[k][m-1] for k in range(n) if k != j ])
+            prob += pmf_j[m] * others_lt
+        P.append(prob)
+
+    return P
+
+
+
 
 
 # === Main execution ===
@@ -125,7 +199,7 @@ if __name__ == "__main__":
     except Exception as e:
         print("Failed to gather stats for each owner:", e)
 
-    # simulate the winners
+     # simulate the winners
     try:
         simulate(stats_df)
         print("League winner simulated!")
@@ -146,4 +220,3 @@ if __name__ == "__main__":
         print("Posted Stats DataFrames successfully:", r.json())
     except Exception as e:
         print("Failed to POST Stats dataframes:", e)
-
