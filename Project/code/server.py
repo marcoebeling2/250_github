@@ -189,5 +189,16 @@ if __name__ == "__main__":
     #print(f" * ngrok tunnel \"{tunnel.public_url}\" → localhost:8000")
 
     # 3) Run this exact `app` instance
+    import os
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+
+    # Read host/port from env (if set), otherwise bind to 0.0.0.0:8000
+    host = os.getenv("FASTAPI_HOST", "0.0.0.0")
+    port = int(os.getenv("FASTAPI_PORT", 8000))
+
+    uvicorn.run(
+        app,
+        host=host,
+        port=port,
+        # reload=True,  # only for development
+    )

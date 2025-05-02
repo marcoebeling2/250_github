@@ -11,7 +11,7 @@ import sys
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://4830-2603-8000-b9f0-c920-00-124c.ngrok-free.app/"
+URL = "https://owners-league.com"
 
 
 
