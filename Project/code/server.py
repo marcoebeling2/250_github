@@ -7,6 +7,8 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Any, List
 from pyngrok import ngrok, conf
+from fastapi.templating import Jinja2Templates
+
 
 # set up ngrok
 conf.get_default().auth_token = "2wRBYTeFGmI0h1kRDtnTzd5Yfmq_5ShVWSkYvfc2b6uBkPv76"
@@ -105,9 +107,10 @@ async def receive_dataframes(payload: DataFramePayload):
 
 
 
-# set up html stuff with jinja
 latest_stats: List[Any] = []
 templates = Jinja2Templates(directory="templates")
+templates.env.auto_reload = True
+templates.env.cache = {}
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/stats_view")
