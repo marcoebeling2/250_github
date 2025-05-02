@@ -43,6 +43,7 @@
                       <th>Wins</th>
                       <th>Losses</th>
                       <th>Pct</th>
+                      <th>Superbowl %</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -53,6 +54,12 @@
                         <td>{{ team.losses | int }}</td>
                         <td>
                           {% set pct = team.pct %}
+                          <span class="{% if pct >= 0.6 %}win-high{% elif pct >= 0.5 %}win-mid{% else %}win-low{% endif %}">
+                            {{ '{:.3f}'.format(pct) }}
+                          </span>
+                        </td>
+                        <td>
+                          {% set sb_pct = team.sb_pct %}
                           <span class="{% if pct >= 0.6 %}win-high{% elif pct >= 0.5 %}win-mid{% else %}win-low{% endif %}">
                             {{ '{:.3f}'.format(pct) }}
                           </span>

@@ -11,7 +11,7 @@ import sys
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://5aed-2603-8000-b9f0-c920-2591-f9a3-7cc5-5c63.ngrok-free.app/"
+URL = "https://47bc-2603-8000-b9f0-c920-00-124c.ngrok-free.app"
 
 
 
