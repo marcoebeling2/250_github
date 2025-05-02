@@ -1,6 +1,7 @@
 import requests, time, random
 import pandas as pd
 import numpy as np
+import sys
 
 
 # === Configuration ===
@@ -10,7 +11,7 @@ import numpy as np
 # my wifi at home
 URL = "http://192.168.1.16:8000"
 # using ngrok
-URL = "https://4eb5-2603-8000-b9f0-c920-2591-f9a3-7cc5-5c63.ngrok-free.app"
+URL = "https://5aed-2603-8000-b9f0-c920-2591-f9a3-7cc5-5c63.ngrok-free.app/"
 
 
 
@@ -175,7 +176,7 @@ def champ_probs(all_team_ps, owners):
 # === Main execution ===
 if __name__ == "__main__":
     try:
-        df = update_stats("2023")
+        df = update_stats(*sys.argv[1:2])
         print("New ESPN data received!")
 
 

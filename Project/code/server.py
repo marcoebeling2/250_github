@@ -58,15 +58,15 @@ Browns = "Cleveland Browns"
 
 player_teams = {
     "Cotter Duffy": [Eagles, Cardinals, Panthers],
-    "John Taiarioli": [Bengals, Colts, Jaguars],
-    "Danny Crouse": [Dolphins, Chargers, Commanders],
     "Jake Rupert": [Niners, Vikings, Titans],
-    "Ben Masiowski": [Texans, Cowboys, Saints],
-    "Michael Corrigan": [Chiefs, Bears, Rams],
-    "Will Fredrick": [Lions, Steelers, Raiders],
     "Seth McKay": [Jets, Falcons, Seahawks],
+    "John Taiarioli": [Bengals, Colts, Jaguars],
+    "Ben Masiowski": [Texans, Cowboys, Saints],
     "Matt Wellener": [Bills, Packers, Giants],
+    "Danny Crouse": [Dolphins, Chargers, Commanders],
+    "Michael Corrigan": [Chiefs, Bears, Rams],
     "Quintin Wrabley": [Ravens, Buccaneers, Browns],
+    "Will Fredrick": [Lions, Steelers, Raiders],
 }
 
 
@@ -75,6 +75,23 @@ player_teams = {
 # =============================
 df = pd.Series(player_teams).reset_index()
 df.columns = ["Owner", "teams"]
+
+# map each owner to a color
+owner_colors = {
+    "Cotter Duffy":    "#3A8FB7",
+    "Jake Rupert":     "#E76F51",
+    "Seth McKay":      "#2A9D8F",
+    "John Taiarioli":  "#F4A261",
+    "Ben Masiowski":   "#264653",
+    "Matt Wellener":   "#8ECAE6",
+    "Danny Crouse":    "#E9C46A",
+    "Michael Corrigan":"#006D77",
+    "Quintin Wrabley": "#FFB4A2",
+    "Will Fredrick":   "#8338EC",
+}
+
+# add the new column (as the third column):
+df.insert(2, "color", df["Owner"].map(owner_colors))
 
 
 # class for getting data from the client rpi
@@ -134,18 +151,28 @@ async def stats_view(request: Request):
         plot_url = None
 
     # Build card-based data structure
+    VIDRIS_COLORS = [
+    "#648FFF",  # blue
+    "#785EF0",  # purple
+    "#DC267F",  # pink
+    "#FE6100",  # orange
+    "#FFB000",  # yellow
+    ]
+
     owner_cards = []
-    for row in df.to_dict(orient="records"):
+    for idx, row in enumerate(df.to_dict(orient="records")):
         owner_cards.append({
             "owner": row["Owner"],
             "teams": [
-                {"name": row.get("team_1", ""), "wins": row.get("wins_1", 0), "losses": row.get("losses_1", 0), "pct": row.get("pct_1", 0.0)},
-                {"name": row.get("team_2", ""), "wins": row.get("wins_2", 0), "losses": row.get("losses_2", 0), "pct": row.get("pct_2", 0.0)},
-                {"name": row.get("team_3", ""), "wins": row.get("wins_3", 0), "losses": row.get("losses_3", 0), "pct": row.get("pct_3", 0.0)},
+                { "name": row.get("team_1",""), "wins": row.get("wins_1",0), "losses": row.get("losses_1",0), "pct": row.get("pct_1",0.0) },
+                { "name": row.get("team_2",""), "wins": row.get("wins_2",0), "losses": row.get("losses_2",0), "pct": row.get("pct_2",0.0) },
+                { "name": row.get("team_3",""), "wins": row.get("wins_3",0), "losses": row.get("losses_3",0), "pct": row.get("pct_3",0.0) },
             ],
-            "total_wins": row.get("total_wins", 0),
-            "total_losses": row.get("total_losses", 0),
-            "total_pct": row.get("total_pct", 0.0),
+            "total_wins":   row.get("total_wins",0),
+            "total_losses": row.get("total_losses",0),
+            "total_pct":    row.get("total_pct",0.0),
+            # 2) pick a color by cycling through the palette
+            "color": row.get("color","")
         })
 
     return templates.TemplateResponse(

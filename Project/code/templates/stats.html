@@ -25,11 +25,14 @@
   <div class="container">
 
     {% if owner_cards %}
-      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="row justify-content-center row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {% for owner in owner_cards %}
           <div class="col">
             <div class="card border-dark h-100">
-              <div class="card-header bg-dark text-white text-center">
+              <div
+                class="card-header text-white text-center"
+                style="background-color: {{ owner.color }};"
+              >
                 <h5 class="mb-0">{{ owner.owner }}</h5>
               </div>
               <div class="card-body">
@@ -83,7 +86,7 @@
     {% endif %}
 
     {% if plot_url %}
-      <div class="card my-5">
+      <div class="card my-5 mx-auto" style="max-width: 600px;">
         <div class="card-header bg-secondary text-white">
           <h5 class="text-center">Total Wins by Owner</h5>
         </div>
@@ -91,7 +94,7 @@
           <img
             src="{{ plot_url }}"
             alt="League Total Wins Chart"
-            class="img-fluid"
+            class="img-fluid d-block mx-auto"
           >
         </div>
       </div>
