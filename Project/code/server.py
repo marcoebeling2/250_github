@@ -187,9 +187,11 @@ async def root():
 # =============================
 if __name__ == "__main__":
     # set up ngrok
+    """
     conf.get_default().auth_token = "2wRBYTeFGmI0h1kRDtnTzd5Yfmq_5ShVWSkYvfc2b6uBkPv76"
     tunnel = ngrok.connect(8000, bind_tls=True)
     print(f" * ngrok tunnel \"{tunnel.public_url}\" → localhost:8000")
+    """
 
     # 3) Run this exact `app` instance
     import os
