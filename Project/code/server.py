@@ -103,6 +103,7 @@ font_color = {
 # add the new column (as the third column):
 df.insert(2, "color", df["Owner"].map(owner_color))
 df.insert(3, "font_color", df["Owner"].map(font_color))
+print(df)
 
 
 # class for getting data from the client rpi
