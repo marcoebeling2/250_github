@@ -85,6 +85,7 @@ def simulate(stats_df):
     if games >= 17 :
         games = 17
     std = 1.5 * (17 - games) / 17
+    std = 1.5 * (17 - 12) / 17 # add some variation for now
     var = 3 * std**2
     means = stats_df["total_wins"].values
     number = 10000

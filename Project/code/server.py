@@ -186,6 +186,7 @@ async def stats_view(request: Request):
     # Rankings: total wins and win percentage
     ranked_owners = []
     ranked_by_pct = []
+    ranked_league_pct = [] 
     if not df.empty:
         ranked_owners_df = df[["Owner", "total_wins"]].copy()
         ranked_owners_df = ranked_owners_df.sort_values(by="total_wins", ascending=False).reset_index(drop=True)
@@ -197,6 +198,14 @@ async def stats_view(request: Request):
         ranked_pct_df["rank"] = ranked_pct_df.index + 1
         ranked_by_pct = ranked_pct_df.to_dict(orient="records")
 
+        ranked_league_df = (
+            df[["Owner", "league_win_pct"]]
+            .sort_values(by="league_win_pct", ascending=False)
+            .reset_index(drop=True)
+        )
+        ranked_league_df["rank"] = ranked_league_df.index + 1
+        ranked_league_pct = ranked_league_df.to_dict(orient="records")
+
     return templates.TemplateResponse(
         "stats.html",
         {
@@ -204,6 +213,7 @@ async def stats_view(request: Request):
             "owner_cards": owner_cards,
             "ranked_owners": ranked_owners,
             "ranked_by_pct": ranked_by_pct,
+            "ranked_league_pct": ranked_league_pct,
         }
     )
 

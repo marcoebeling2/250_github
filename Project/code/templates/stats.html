@@ -141,100 +141,117 @@
     </div>
 
   </div> <!-- /.container -->
+  <!-- new third chart: simulated league win % -->
+  <div class="row my-5">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h5 class="text-center">Simulated League Win %</h5>
+        </div>
+        <div class="card-body">
+          <canvas id="leaguePctChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <!-- JS dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  
-    <!-- Chart.js “factory” functions, but do not call them yet -->
-    <script>
-      function makeWinsChart() {
-        const winsData = {{ ranked_owners | tojson }};
-        const owners   = winsData.map(o => o.Owner);
-        const wins     = winsData.map(o => o.total_wins);
-  
-        const winsMin  = Math.min(...wins) - 2;
-        const winsMax  = Math.max(...wins) + 2;
-  
-        return new Chart(
-          document.getElementById('winsChart').getContext('2d'),
-          {
-            type: 'bar',
-            data: {
-              labels: owners,
-              datasets: [{ label: 'Total Wins', data: wins }]
-            },
-            options: {
-              responsive: true,
-              animation: {
-                duration: 1000,        // 1s animation
-                easing: 'easeOutBounce'
-              },
-              scales: {
-                y: { min: winsMin, max: winsMax, ticks: { stepSize: 1 } }
+</div> <!-- /.container -->
+    
+  <!-- JS dependencies -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Chart.js factory functions -->
+  <script>
+    function makeWinsChart() {
+      const winsData = {{ ranked_owners | tojson }};
+      const owners   = winsData.map(o => o.Owner);
+      const wins     = winsData.map(o => o.total_wins);
+      const winsMin  = Math.min(...wins) - 2;
+      const winsMax  = Math.max(...wins) + 2;
+
+      return new Chart(
+        document.getElementById('winsChart').getContext('2d'),
+        {
+          type: 'bar',
+          data: { labels: owners, datasets: [{ label: 'Total Wins', data: wins }] },
+          options: {
+            responsive: true,
+            animation: { duration: 1000, easing: 'easeOutElastic' },
+            scales: { y: { min: winsMin, max: winsMax, ticks: { stepSize: 1 } } }
+          }
+        }
+      );
+    }
+
+    function makePctChart() {
+      const pctData = {{ ranked_by_pct | tojson }};
+      const pct     = pctData.map(o => o.total_pct);
+      const padPct  = 0.05;
+
+      return new Chart(
+        document.getElementById('pctChart').getContext('2d'),
+        {
+          type: 'bar',
+          data: { labels: pctData.map(o => o.Owner), datasets: [{ label: 'Win %', data: pct }] },
+          options: {
+            responsive: true,
+            animation: { duration: 1000, easing: 'easeOutSine' },
+            scales: {
+              y: {
+                min: Math.min(...pct) - padPct,
+                max: Math.max(...pct) + padPct,
+                ticks: { callback: v => (v*100).toFixed(0) + '%' }
               }
             }
           }
-        );
-      }
-  
-      function makePctChart() {
-        const pctData = {{ ranked_by_pct | tojson }};
-        const pct     = pctData.map(o => o.total_pct);
-        const padPct  = 0.05;
-  
-        return new Chart(
-          document.getElementById('pctChart').getContext('2d'),
-          {
-            type: 'bar',
-            data: {
-              labels: pctData.map(o => o.Owner),
-              datasets: [{ label: 'Win %', data: pct }]
-            },
-            options: {
-              responsive: true,
-              animation: { duration: 1000, easing: 'easeOutBounce' },
-              scales: {
-                y: {
-                  min: Math.min(...pct) - padPct,
-                  max: Math.max(...pct) + padPct,
-                  ticks: { callback: v => (v*100).toFixed(0) + '%' }
-                }
+        }
+      );
+    }
+
+    function makeLeaguePctChart() {
+      const leagueData = {{ ranked_league_pct | tojson }};
+      const ownersLP   = leagueData.map(o => o.Owner);
+      const pctLP      = leagueData.map(o => o.league_win_pct);
+
+      return new Chart(
+        document.getElementById('leaguePctChart').getContext('2d'),
+        {
+          type: 'bar',
+          data: { labels: ownersLP, datasets: [{ label: 'League Win %', data: pctLP }] },
+          options: {
+            responsive: true,
+            animation: { duration: 1000, easing: 'easeOutCubic' },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: { callback: v => (v*100).toFixed(1) + '%' }
               }
             }
           }
-        );
-      }
-    </script>
-  
-    <!-- IntersectionObserver to draw on scroll -->
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const observerOptions = {
-          root: null,           // viewport
-          rootMargin: '0px',
-          threshold: 0.3        // 30% of canvas visible
-        };
-  
-        const chartObserver = new IntersectionObserver((entries, obs) => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-  
-            if (entry.target.id === 'winsChart') {
-              makeWinsChart();
-            }
-            if (entry.target.id === 'pctChart') {
-              makePctChart();
-            }
-            // stop watching once drawn
-            obs.unobserve(entry.target);
-          });
-        }, observerOptions);
-  
-        // start observing both canvases
-        chartObserver.observe(document.getElementById('winsChart'));
-        chartObserver.observe(document.getElementById('pctChart'));
-      });
-    </script>
-  </body>
-  </html>
+        }
+      );
+    }
+  </script>
+
+  <!-- IntersectionObserver to animate on scroll -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          switch(entry.target.id) {
+            case 'winsChart': makeWinsChart(); break;
+            case 'pctChart': makePctChart(); break;
+            case 'leaguePctChart': makeLeaguePctChart(); break;
+          }
+          obs.unobserve(entry.target);
+        });
+      }, { threshold: 0.3 });
+
+      ['winsChart', 'pctChart', 'leaguePctChart']
+        .forEach(id => observer.observe(document.getElementById(id)));
+    });
+  </script>
+</body>
+</html>
