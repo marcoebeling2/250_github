@@ -9,16 +9,46 @@
     rel="stylesheet"
   >
   <style>
-    .win-high { color: black;  }
-    .win-mid  { color: black;   }
-    .win-low  { color: black;}
+    .win-high { color: black; }
+    .win-mid  { color: black; }
+    .win-low  { color: black; }
+  
+    /* ─── Navbar enhancements ─── */
+  
+    /* 1) Box-shadow & rounded bottom corners */
+    .navbar {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+  
+    /* 2) Logo + text styling */
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+      transition: text-shadow 0.3s ease;
+    }
+    .navbar-brand img {
+      height: 2rem;
+      margin-right: 0.5rem;
+    }
+  
+    /* 3) Hover glow effect */
+    .navbar-brand:hover {
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+    }
   </style>
 </head>
 <body class="bg-light">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <div class="container-fluid">
-      <a class="navbar-brand justify-content-center" href="#">League Stats</a>
+    <div class="container-fluid justify-content-center">
+      <a class="navbar-brand" href="#">
+        <!-- put your logo file under static/, or adjust the path -->
+        <img src="/static/graphs/NFL-logo.png" alt="League Stats Logo">
+        League Stats
+      </a>
     </div>
   </nav>
 
