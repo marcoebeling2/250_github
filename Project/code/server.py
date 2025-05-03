@@ -58,7 +58,7 @@ player_teams = {
     "Jake Rupert": [Niners, Vikings, Titans],
     "Seth McKay": [Jets, Falcons, Seahawks],
     "John Taiariol": [Bengals, Colts, Jaguars],
-    "Ben Masiowski": [Texans, Cowboys, Saints],
+    "Ben Maslowski": [Texans, Cowboys, Saints],
     "Matt Wellener": [Bills, Packers, Giants],
     "Danny Crouse": [Dolphins, Chargers, Commanders],
     "Michael Corrigan": [Chiefs, Bears, Rams],
@@ -79,7 +79,7 @@ owner_color = {
     "Jake Rupert":     "#FAFF56",
     "Seth McKay":      "#CC5140",
     "John Taiariol":  "#E69E39",
-    "Ben Masiowski":   "#86A4AD",
+    "Ben Maslowski":   "#86A4AD",
     "Matt Wellener":   "#FFFFFF",
     "Danny Crouse":    "#76611D",
     "Michael Corrigan":"#FFC0CB",
@@ -92,7 +92,7 @@ font_color = {
     "Jake Rupert":     "#000000",
     "Seth McKay":      "#000000",
     "John Taiariol":  "#000000",
-    "Ben Masiowski":   "#000000",
+    "Ben Maslowski":   "#000000",
     "Matt Wellener":   "#000000",
     "Danny Crouse":    "#FFFFFF",
     "Michael Corrigan":"#000000",
@@ -146,6 +146,7 @@ async def stats_view(request: Request):
     df = pd.DataFrame(latest_stats)
 
     # Visualization: Total wins per owner
+    """
     fig, ax = plt.subplots(figsize=(8, 4))
     if not df.empty:
         df.set_index("Owner")["total_wins"].sort_values().plot.barh(ax=ax)
@@ -160,6 +161,7 @@ async def stats_view(request: Request):
         plot_url = "/static/graphs/total_wins.png"
     else:
         plot_url = None
+    """
 
     # Build card-based data structure
 
@@ -181,12 +183,27 @@ async def stats_view(request: Request):
             "font_color": row.get("font_color",""),
         })
 
+    # Rankings: total wins and win percentage
+    ranked_owners = []
+    ranked_by_pct = []
+    if not df.empty:
+        ranked_owners_df = df[["Owner", "total_wins"]].copy()
+        ranked_owners_df = ranked_owners_df.sort_values(by="total_wins", ascending=False).reset_index(drop=True)
+        ranked_owners_df["rank"] = ranked_owners_df.index + 1
+        ranked_owners = ranked_owners_df.to_dict(orient="records")
+
+        ranked_pct_df = df[["Owner", "total_pct"]].copy()
+        ranked_pct_df = ranked_pct_df.sort_values(by="total_pct", ascending=False).reset_index(drop=True)
+        ranked_pct_df["rank"] = ranked_pct_df.index + 1
+        ranked_by_pct = ranked_pct_df.to_dict(orient="records")
+
     return templates.TemplateResponse(
         "stats.html",
         {
             "request": request,
             "owner_cards": owner_cards,
-            "plot_url": plot_url,
+            "ranked_owners": ranked_owners,
+            "ranked_by_pct": ranked_by_pct,
         }
     )
 
