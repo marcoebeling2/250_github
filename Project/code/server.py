@@ -8,10 +8,7 @@ from pydantic import BaseModel
 from typing import Any, List
 from pyngrok import ngrok, conf
 from fastapi.templating import Jinja2Templates
-
-
-# set up ngrok
-conf.get_default().auth_token = "2wRBYTeFGmI0h1kRDtnTzd5Yfmq_5ShVWSkYvfc2b6uBkPv76"
+from fastapi.responses import RedirectResponse
 
 
 # =============================
@@ -178,15 +175,21 @@ async def stats_view(request: Request):
     )
 
 
+# redirect to stats_view
+@app.get("/")
+async def root():
+    return RedirectResponse(url="/stats_view")
+
 
 
 # =============================
 # Entry point (dev mode)
 # =============================
 if __name__ == "__main__":
-    # 2) Open a single HTTPS tunnel to your FastAPI on 127.0.0.1:8000
-    #tunnel = ngrok.connect(8000, bind_tls=True)
-    #print(f" * ngrok tunnel \"{tunnel.public_url}\" → localhost:8000")
+    # set up ngrok
+    conf.get_default().auth_token = "2wRBYTeFGmI0h1kRDtnTzd5Yfmq_5ShVWSkYvfc2b6uBkPv76"
+    tunnel = ngrok.connect(8000, bind_tls=True)
+    print(f" * ngrok tunnel \"{tunnel.public_url}\" → localhost:8000")
 
     # 3) Run this exact `app` instance
     import os

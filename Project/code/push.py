@@ -9,7 +9,6 @@ import sys
 #URL = "http://172.20.10.3:8000" # local host for testing
 
 # my wifi at home
-URL = "http://192.168.1.16:8000"
 # using ngrok
 URL = "https://owners-league.com"
 
