@@ -57,7 +57,7 @@ player_teams = {
     "Cotter Duffy": [Eagles, Cardinals, Panthers],
     "Jake Rupert": [Niners, Vikings, Titans],
     "Seth McKay": [Jets, Falcons, Seahawks],
-    "John Taiarioli": [Bengals, Colts, Jaguars],
+    "John Taiariol": [Bengals, Colts, Jaguars],
     "Ben Masiowski": [Texans, Cowboys, Saints],
     "Matt Wellener": [Bills, Packers, Giants],
     "Danny Crouse": [Dolphins, Chargers, Commanders],
@@ -74,11 +74,11 @@ df = pd.Series(player_teams).reset_index()
 df.columns = ["Owner", "teams"]
 
 # map each owner to a color
-owner_colors = {
+owner_color = {
     "Cotter Duffy":    "#4CBB17",
     "Jake Rupert":     "#FAFF56",
     "Seth McKay":      "#CC5140",
-    "John Taiarioli":  "#E69E39",
+    "John Taiariol":  "#E69E39",
     "Ben Masiowski":   "#86A4AD",
     "Matt Wellener":   "#FFFFFF",
     "Danny Crouse":    "#76611D",
@@ -87,8 +87,22 @@ owner_colors = {
     "Will Fredrick":   "#2190CB",
 }
 
+font_color = {
+    "Cotter Duffy":    "#000000",
+    "Jake Rupert":     "#000000",
+    "Seth McKay":      "#000000",
+    "John Taiariol":  "#000000",
+    "Ben Masiowski":   "#000000",
+    "Matt Wellener":   "#000000",
+    "Danny Crouse":    "#FFFFFF",
+    "Michael Corrigan":"#000000",
+    "Quintin Wrabley": "#FFFFFF",
+    "Will Fredrick":   "#000000",
+}
+
 # add the new column (as the third column):
-df.insert(2, "color", df["Owner"].map(owner_colors))
+df.insert(2, "color", df["Owner"].map(owner_color))
+df.insert(3, "font_color", df["Owner"].map(font_color))
 
 
 # class for getting data from the client rpi
@@ -163,7 +177,8 @@ async def stats_view(request: Request):
             "total_losses": row.get("total_losses",0),
             "total_pct":    row.get("total_pct",0.0),
             # 2) pick a color by cycling through the palette
-            "color": row.get("color","")
+            "color": row.get("color",""),
+            "font_color": row.get("font_color",""),
         })
 
     return templates.TemplateResponse(
