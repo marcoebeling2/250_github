@@ -13,7 +13,7 @@
     .win-mid  { color: black;   }
     .win-low  { color: black;}
   </style>
-</head>s
+</head>
 <body class="bg-light">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
@@ -30,9 +30,11 @@
           <div class="col">
             <div class="card border-dark h-100">
               <div
-                class="card-header text-white text-center"
-                style="background-color: {{ owner.color }};
-                color: {{ owner.font_color }};"
+                class="card-header text-center"
+                style="
+                  background-color: {{ owner.color }};
+                  color: {{ owner.font_color }};
+                "
                 
               >
                 <h5 class="mb-0">{{ owner.owner }}</h5>
@@ -81,7 +83,7 @@
 
     {% if plot_url %}
       <div class="card my-5 mx-auto" style="max-width: 600px;">
-        <div class="card-header bg-secondary text-white">
+        <div class="card-header bg-secondary">
           <h5 class="text-center">Total Wins by Owner</h5>
         </div>
         <div class="card-body text-center">
