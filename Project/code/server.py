@@ -75,16 +75,16 @@ df.columns = ["Owner", "teams"]
 
 # map each owner to a color
 owner_colors = {
-    "Cotter Duffy":    "#3A8FB7",
-    "Jake Rupert":     "#E76F51",
-    "Seth McKay":      "#2A9D8F",
-    "John Taiarioli":  "#F4A261",
-    "Ben Masiowski":   "#264653",
-    "Matt Wellener":   "#8ECAE6",
-    "Danny Crouse":    "#E9C46A",
-    "Michael Corrigan":"#006D77",
-    "Quintin Wrabley": "#FFB4A2",
-    "Will Fredrick":   "#8338EC",
+    "Cotter Duffy":    "#4CBB17",
+    "Jake Rupert":     "#FAFF56",
+    "Seth McKay":      "#CC5140",
+    "John Taiarioli":  "#E69E39",
+    "Ben Masiowski":   "#86A4AD",
+    "Matt Wellener":   "#FFFFFF",
+    "Danny Crouse":    "#76611D",
+    "Michael Corrigan":"#FFC0CB",
+    "Quintin Wrabley": "#000000",
+    "Will Fredrick":   "#2190CB",
 }
 
 # add the new column (as the third column):
@@ -157,6 +157,7 @@ async def stats_view(request: Request):
                 { "name": row.get("team_1",""), "wins": row.get("wins_1",0), "losses": row.get("losses_1",0), "pct": row.get("pct_1",0.0) },
                 { "name": row.get("team_2",""), "wins": row.get("wins_2",0), "losses": row.get("losses_2",0), "pct": row.get("pct_2",0.0) },
                 { "name": row.get("team_3",""), "wins": row.get("wins_3",0), "losses": row.get("losses_3",0), "pct": row.get("pct_3",0.0) },
+                { "name": "Total record", "wins": row.get("total_wins",0), "losses": row.get("total_losses",0), "pct": row.get("total_pct",0.0) },
             ],
             "total_wins":   row.get("total_wins",0),
             "total_losses": row.get("total_losses",0),

@@ -9,9 +9,9 @@
     rel="stylesheet"
   >
   <style>
-    .win-high { color: black; font-weight: bold; }
-    .win-mid  { color: black; font-weight: bold; }
-    .win-low  { color: black; font-weight: bold; }
+    .win-high { color: black;  }
+    .win-mid  { color: black;   }
+    .win-low  { color: black;}
   </style>
 </head>s
 <body class="bg-light">
@@ -48,7 +48,7 @@
                   <tbody>
                     {% for team in owner.teams %}
                       <tr>
-                        <td><strong>{{ team.name }}</strong></td>
+                        <td><strong>{{ team.name }}</td>
                         <td>{{ team.wins | int }}</td>
                         <td>{{ team.losses | int }}</td>
                         <td>
@@ -61,15 +61,7 @@
                     {% endfor %}
                   </tbody>
                 </table>
-                <div class="border-top pt-2 mt-3">
-                  <strong>Total Record:</strong>
-                  {{ owner.total_wins | int }} - {{ owner.total_losses | int }}<br>
-                  <strong>Win %:</strong>
-                  {% set tpct = owner.total_pct %}
-                  <span class="{% if tpct >= 0.6 %}win-high{% elif tpct >= 0.5 %}win-mid{% else %}win-low{% endif %}">
-                    {{ '{:.3f}'.format(tpct) }}
-                  </span>
-                </div>
+                
               </div>
             </div>
           </div>
