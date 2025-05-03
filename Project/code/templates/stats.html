@@ -52,7 +52,7 @@
                         <td>{{ team.wins | int }}</td>
                         <td>{{ team.losses | int }}</td>
                         <td>
-                          {% set pct = team.pct %}
+                            {{ '{:.3f}'.format(pct) }}
                         </td>
                       </tr>
                     {% endfor %}
@@ -62,7 +62,7 @@
                   <strong>Total Record:</strong>
                   {{ owner.total_wins | int }} - {{ owner.total_losses | int }}<br>
                   <strong>Win %:</strong>
-                  {% set tpct = owner.total_pct %}
+                    {{ '{:.3f}'.format(tpct) }}
                 </div>
               </div>
             </div>
