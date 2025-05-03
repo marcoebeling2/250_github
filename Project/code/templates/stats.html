@@ -58,12 +58,6 @@
                             {{ '{:.3f}'.format(pct) }}
                           </span>
                         </td>
-                        <td>
-                          {% set sb_pct = team.sb_pct %}
-                          <span class="{% if pct >= 0.6 %}win-high{% elif pct >= 0.5 %}win-mid{% else %}win-low{% endif %}">
-                            {{ '{:.3f}'.format(pct) }}
-                          </span>
-                        </td>
                       </tr>
                     {% endfor %}
                   </tbody>
