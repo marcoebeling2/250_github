@@ -168,7 +168,7 @@
               responsive: true,
               animation: {
                 duration: 1800,        // 1s animation
-                easing: 'easeInExpo'
+                easing: 'easeOutExpo'
               },
               scales: {
                 y: { min: winsMin, max: winsMax, ticks: { stepSize: 1 } }
@@ -193,7 +193,7 @@
             },
             options: {
               responsive: true,
-              animation: { duration: 1800, easing: 'easeOutSin' },
+              animation: { duration: 1800, easing: 'easeOutLinear' },
               scales: {
                 y: {
                   min: Math.min(...pct) - padPct,
