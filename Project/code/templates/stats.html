@@ -51,15 +51,13 @@
                   </thead>
                   <tbody>
                     {% for team in owner.teams %}
-                      <tr>
-                        <td><strong>{{ team.name }}</td>
+                      <tr class="{% if loop.last %}fw-bold{% endif %}">
+                        <!-- no more <strong> around the name -->
+                        <td>{{ team.name }}</td>
                         <td>{{ team.wins | int }}</td>
                         <td>{{ team.losses | int }}</td>
                         <td>
-                          {% set pct = team.pct %}
-                          <span class="{% if pct >= 0.6 %}win-high{% elif pct >= 0.5 %}win-mid{% else %}win-low{% endif %}">
-                            {{ '{:.3f}'.format(pct) }}
-                          </span>
+                          {{ '{:.3f}'.format(team.pct) }}
                         </td>
                       </tr>
                     {% endfor %}
