@@ -170,9 +170,9 @@ async def stats_view(request: Request):
         owner_cards.append({
             "owner": row["Owner"],
             "teams": [
-                { "name": row.get("team_1",""), "wins": row.get("wins_1",0), "losses": row.get("losses_1",0), "pct": row.get("pct_1",0.0) },
-                { "name": row.get("team_2",""), "wins": row.get("wins_2",0), "losses": row.get("losses_2",0), "pct": row.get("pct_2",0.0) },
-                { "name": row.get("team_3",""), "wins": row.get("wins_3",0), "losses": row.get("losses_3",0), "pct": row.get("pct_3",0.0) },
+                { "name": row.get("team_1","").split(" ")[-1], "wins": row.get("wins_1",0), "losses": row.get("losses_1",0), "pct": row.get("pct_1",0.0) },
+                { "name": row.get("team_2","").split(" ")[-1], "wins": row.get("wins_2",0), "losses": row.get("losses_2",0), "pct": row.get("pct_2",0.0) },
+                { "name": row.get("team_3","").split(" ")[-1], "wins": row.get("wins_3",0), "losses": row.get("losses_3",0), "pct": row.get("pct_3",0.0) },
                 { "name": "Total record", "wins": row.get("total_wins",0), "losses": row.get("total_losses",0), "pct": row.get("total_pct",0.0) },
             ],
             "total_wins":   row.get("total_wins",0),
