@@ -208,6 +208,10 @@ def notify_with_sound(mp3_file="sound.mp3", bt_name="JBL Clip 4"):
 # === Main execution ===
 if __name__ == "__main__":
     try:
+        notify_with_sound()
+    except Exception as e:
+        print("Failed to play notification sound:", e)
+    try:
         df = update_stats(*sys.argv[1:2])
         print("New ESPN data received!")
 
