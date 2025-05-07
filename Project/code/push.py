@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import sys
 import subprocess 
-import os
 
 # === Configuration ===
 #URL = "http://192.168.50.1:8000"  # Matches your FastAPI endpoint
@@ -170,38 +169,38 @@ def champ_probs(all_team_ps, owners):
     return P
 
 def notify_with_sound(mp3_file="sound.mp3", bt_name="JBL Clip 4"):
-    """Play an MP3 on a Bluetooth speaker (connects only if not already connected)."""
-    if not os.path.isfile(mp3_file):
-        print(f"❌ File not found: {mp3_file}")
-        return
-
+    """Connect to the Bluetooth speaker by name and play an MP3."""
     try:
-        # 1) power on
+        # 1) Ensure Bluetooth is powered on
         subprocess.run(["bluetoothctl", "power", "on"], check=True)
 
-        # 2) find MAC
-        out = subprocess.check_output(["bluetoothctl", "devices"]).decode().splitlines()
-        mac = next((line.split()[1] for line in out if bt_name in line), None)
+        # 2) Find the MAC address of the speaker
+        devices = subprocess.check_output(["bluetoothctl", "devices"]) \
+                            .decode() \
+                            .splitlines()
+        mac = None
+        for line in devices:
+            if bt_name in line:
+                # format: "Device XX:XX:XX:XX:XX:XX JBL Clip 4"
+                mac = line.split()[1]
+                break
+
         if not mac:
-            print(f"Speaker '{bt_name}' not found.")
+            print(f"Speaker '{bt_name}' not found in paired devices.")
             return
 
-        # 3) trust & connect only if needed
-        subprocess.run(["bluetoothctl", "trust", mac], check=True)
-        info = subprocess.check_output(["bluetoothctl", "info", mac]).decode()
-        if "Connected: yes" not in info:
-            print(f"Connecting to {bt_name}…")
-            subprocess.run(["bluetoothctl", "connect", mac], check=True)
-            time.sleep(2)
+        # 3) Connect to it
+        subprocess.run(["bluetoothctl", "connect", mac], check=True)
+        print(f"Connected to {bt_name} ({mac})")
 
-        # 4) play
-        print(f"▶️ Playing {mp3_file}")
-        subprocess.run(["mpg123", "-q", mp3_file], check=True)
+        # 4) Play the MP3 (will use your system’s default sink, i.e. the speaker)
+        subprocess.run(["mpg123", mp3_file], check=True)
 
     except subprocess.CalledProcessError as e:
         print("Bluetooth or playback error:", e)
     except Exception as e:
-        print("Unexpected error:", e)
+        print("Unexpected error in notify_with_sound():", e)
+
 
 
 
