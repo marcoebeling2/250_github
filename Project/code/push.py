@@ -2,7 +2,7 @@ import requests, time, random
 import pandas as pd
 import numpy as np
 import sys
-
+import subprocess 
 
 # === Configuration ===
 #URL = "http://192.168.50.1:8000"  # Matches your FastAPI endpoint
@@ -168,6 +168,39 @@ def champ_probs(all_team_ps, owners):
 
     return P
 
+def notify_with_sound(mp3_file="sound.mp3", bt_name="JBL Clip 4"):
+    """Connect to the Bluetooth speaker by name and play an MP3."""
+    try:
+        # 1) Ensure Bluetooth is powered on
+        subprocess.run(["bluetoothctl", "power", "on"], check=True)
+
+        # 2) Find the MAC address of the speaker
+        devices = subprocess.check_output(["bluetoothctl", "devices"]) \
+                            .decode() \
+                            .splitlines()
+        mac = None
+        for line in devices:
+            if bt_name in line:
+                # format: "Device XX:XX:XX:XX:XX:XX JBL Clip 4"
+                mac = line.split()[1]
+                break
+
+        if not mac:
+            print(f"Speaker '{bt_name}' not found in paired devices.")
+            return
+
+        # 3) Connect to it
+        subprocess.run(["bluetoothctl", "connect", mac], check=True)
+        print(f"Connected to {bt_name} ({mac})")
+
+        # 4) Play the MP3 (will use your system’s default sink, i.e. the speaker)
+        subprocess.run(["mpg123", mp3_file], check=True)
+
+    except subprocess.CalledProcessError as e:
+        print("Bluetooth or playback error:", e)
+    except Exception as e:
+        print("Unexpected error in notify_with_sound():", e)
+
 
 
 
@@ -220,3 +253,8 @@ if __name__ == "__main__":
         print("Posted Stats DataFrames successfully:", r.json())
     except Exception as e:
         print("Failed to POST Stats dataframes:", e)
+
+    try:
+        notify_with_sound()
+    except Exception as e:
+        print("Failed to play notification sound:", e)
