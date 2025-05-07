@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import sys
 import subprocess 
+import os
 
 # === Configuration ===
 #URL = "http://192.168.50.1:8000"  # Matches your FastAPI endpoint
