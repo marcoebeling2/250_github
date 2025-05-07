@@ -169,26 +169,38 @@ def champ_probs(all_team_ps, owners):
     return P
 
 def notify_with_sound(mp3_file="sound.mp3", bt_name="JBL Clip 4"):
+    """Play an MP3 on a Bluetooth speaker (connects only if not already connected)."""
+    if not os.path.isfile(mp3_file):
+        print(f"❌ File not found: {mp3_file}")
+        return
+
     try:
+        # 1) power on
         subprocess.run(["bluetoothctl", "power", "on"], check=True)
-        devices = subprocess.check_output(["bluetoothctl", "devices"]).decode().splitlines()
-        mac = next((line.split()[1] for line in devices if bt_name in line), None)
+
+        # 2) find MAC
+        out = subprocess.check_output(["bluetoothctl", "devices"]).decode().splitlines()
+        mac = next((line.split()[1] for line in out if bt_name in line), None)
         if not mac:
-            print(f"Speaker '{bt_name}' not found in paired devices.")
+            print(f"Speaker '{bt_name}' not found.")
             return
-        subprocess.run(["bluetoothctl", "connect", mac], check=True)
-        print(f"Connected to {bt_name} ({mac})")
-        # play silently
-        subprocess.run(
-            ["mpg123", "-q", mp3_file],
-            check=True,
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL
-        )
+
+        # 3) trust & connect only if needed
+        subprocess.run(["bluetoothctl", "trust", mac], check=True)
+        info = subprocess.check_output(["bluetoothctl", "info", mac]).decode()
+        if "Connected: yes" not in info:
+            print(f"Connecting to {bt_name}…")
+            subprocess.run(["bluetoothctl", "connect", mac], check=True)
+            time.sleep(2)
+
+        # 4) play
+        print(f"▶️ Playing {mp3_file}")
+        subprocess.run(["mpg123", "-q", mp3_file], check=True)
+
     except subprocess.CalledProcessError as e:
         print("Bluetooth or playback error:", e)
     except Exception as e:
-        print("Unexpected error in notify_with_sound():", e)
+        print("Unexpected error:", e)
 
 
 
