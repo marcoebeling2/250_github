@@ -1,12 +1,12 @@
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
+import matplotlib.pyplot
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from typing import Any, List
-from pyngrok import ngrok, conf
+from pyngrok
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 
